@@ -8,3 +8,16 @@ output: html_document
 # Learning ggplot2
 
 We're learning ggplot2 It's going to be amazing.
+
+```{r}
+library(tidyverse) ## do this every time you start R and need it
+```
+
+```{r}
+ohi_data <- read_csv("https://raw.githubusercontent.com/OHI-Science/data-science-training/master/data/OHI_global_data.csv")
+```
+
+```{r}
+head(ohi_data)
+```
+
