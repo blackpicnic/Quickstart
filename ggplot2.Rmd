@@ -111,9 +111,10 @@ ggplot(data = ohi_data, aes(x = OHI_score, y = HDI)) +
   scatterTheme
 ```
 
+## Customizing
+
 ```{r}
-ggplot(data = ohi_data, aes(y = OHI_score, x = HDI, color=georegion_one)) + 
-  geom_point() + 
+ggplot(data = ohi_data, aes(y = OHI_score, x = HDI, color=georegion_one)) + # data specific customization goes intise the aes function, while global changes go outside aes function
     labs(y = "OHI score, 2017",
        x = "Human Development Index",
        title = "Countries with high human development have more sustainable oceans",
@@ -127,7 +128,7 @@ ggplot(data = ohi_data, aes(x=OHI_score)) +
 ```
 
 ```{r}
-ggplot(data = ohi_data, aes(x=OHI_score)) +
+ggplot(data = ohi_data, aes(x=OHI_score)) + # data specific customization goes intise the aes function, while global changes go outside aes function
  geom_histogram(fill="lightgray") +
   labs(x = "OHI Score", y = "")
 ```
@@ -144,5 +145,46 @@ ggplot(data = ohi_data, aes(x=OHI_score)) +
         axis.text.y = element_text(size = 14),
         axis.title = element_text(size = 16)
         )
+```
+
+## Global custom changes
+
+```{r}
+ggplot(data = ohi_summary, aes(x = georegions, y = OHI_score_average)) + 
+  geom_bar(stat="identity", fill = "lightgray") +
+  geom_jitter(data=ohi_data, aes(x=georegion_one, y=OHI_score), color="red", size=3, alpha=0.4) +
+  theme_bw()
+```
+
+## Cheat sheet - https://rstudio.com/wp-content/uploads/2016/11/ggplot2-cheatsheet-2.1.pdf
+
+## Color palettes - http://colorbrewer2.org/
+
+```{r}
+library("RColorBrewer")
+library("colorspace")
+display.brewer.all()
+```
+
+```{r}
+# using a continuous color scale
+continuous_palette <- brewer.pal(n=9, "YlOrRd") #set a palette
+
+```
+
+```{r}
+library(tidyverse)
+ggplot(data = ohi_data, aes(x = OHI_score, y = OHI_trend, color = HDI)) + 
+  geom_point(size =3) +
+  scale_colour_gradientn(colors = continuous_palette)
+```
+
+```{r}
+# using a discrete color scale
+discrete_palette <- brewer.pal(n=12, "Set3")
+
+ggplot(data = ohi_data, aes(x = OHI_score, y = HDI, color = georegion_one)) + 
+  geom_point(size = 3) +
+  scale_color_manual(values = discrete_palette)
 ```
 
