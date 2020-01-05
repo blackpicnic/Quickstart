@@ -11,7 +11,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## R Markdown
 
-To wrangle gapminder data usng dplyr
+This exercise is to practice wrangling gapminder data usng dplyr.
 
 ```{r}
 library(tidyverse)   ## install.packages("tidyverse")
