@@ -59,3 +59,93 @@ library(skimr) # install.packages('skimr')
 skim(gapminder)
 ```
 
+```{r}
+gapminder$lifeExp # very long! hard to make sense of...
+head(gapminder$lifeExp) # can do the same tests we tried before
+str(gapminder$lifeExp) # it is a single numeric vector
+summary(gapminder$lifeExp) # same information, formatted slightly differently
+```
+
+## dplyr
+
+filter() subset observations by values (rows)
+select() subset variables by names (columns)
+mututate() create new variables with functions of existing (columns)
+summarise() collpase values to a summary (rows and columns)
+arrange () reorder/sort rows
+
+group_by() to apply functions group-by-group throughout entire dataset
+
+```{r}
+filter(gapminder, lifeExp < 29)
+```
+
+```{r}
+filter(gapminder, country == "Mexico")
+```
+
+```{r}
+filter(gapminder, country %in% c("Mexico", "Peru"))
+```
+
+```{r}
+filter(gapminder, country == "Mexico", year == 2002)
+```
+
+```{r}
+x <- filter(gapminder, country == "Brazil", year > 1987, year <= 2007)
+mean(x$lifeExp)
+```
+
+```{r}
+select(gapminder, year, country, lifeExp)
+select(gapminder, -continent, -lifeExp) # you can use - to deselect columns
+```
+
+```{r}
+## to combine operations and to use syntax that better matches the logic, use the "Pipe" operator %>% 
+## For example, the new variable gap_cambodia "gets" the following: start with the gapminder dataset, then filter records for Cambodia, then select all the variables except continent and lifeExp
+gap_cambodia  <- gapminder %>% 
+  filter(country == "Cambodia") %>%
+  select(-continent, -lifeExp) 
+```
+
+```{r}
+gapminder %>%
+  mutate(gdp = pop * gdpPercap)
+```
+
+```{r}
+gapminder %>% 
+  filter (continent == "Asia", year ==2007) %>% 
+  mutate (asian_pop = pop/1000)
+```
+
+```{r}
+gapminder %>%
+  filter(year == 2002) %>%
+  group_by(continent) %>% 
+  mutate(cont_pop = sum(pop))
+```
+
+```{r}
+gapminder %>%
+  group_by(continent) %>%
+  summarize(cont_pop = sum(pop)) %>%
+  ungroup()
+## always remember to ungroup after grouping a variable
+```
+
+```{r}
+gapminder %>%
+  group_by(continent, year) %>%
+  summarize(cont_pop = sum(pop))
+```
+
+```{r}
+gapminder %>%
+  group_by(continent, year) %>%
+  summarize(cont_pop = sum(pop)) %>%
+  arrange(year)
+```
+
