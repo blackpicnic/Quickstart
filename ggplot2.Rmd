@@ -102,6 +102,7 @@ ggplot(data = ohi_data, aes(x = OHI_score, y = HDI)) +
 ```
 
 # here are a bunch of themes: https://www.ggplot2-exts.org/
+# also try library(ggthemes) theme_tufte()
 
 ```{r}
 source('https://raw.githubusercontent.com/OHI-Science/ohiprep/master/src/R/scatterTheme.txt')       
@@ -186,5 +187,24 @@ discrete_palette <- brewer.pal(n=12, "Set3")
 ggplot(data = ohi_data, aes(x = OHI_score, y = HDI, color = georegion_one)) + 
   geom_point(size = 3) +
   scale_color_manual(values = discrete_palette)
+```
+
+```{r}
+# practice with a fake dataframe
+fake_data <- data.frame(animal = rep(c("cat", "dog", "hamster"), each=10),
+  year = 2011:2020,
+  values = c(rnorm(n=10, 5, 1) * seq(0.1, 0.5, length.out=10),
+  rnorm(n=10, 8, 1) * seq(0.1, 0.5, length.out=10),
+  rnorm(n=10, 10, 1) * seq(0.1, 0.5, length.out=10)))
+
+## code to create a plot
+library(ggthemes)
+
+ggplot(data = fake_data, aes(x = as.factor(year), y = values, group=animal, color=animal)) + 
+      geom_point(size = 3) +
+      geom_line(size=2, alpha = 0.5) + 
+      labs(x = "year", color = "") +
+      theme_tufte()
+
 ```
 
